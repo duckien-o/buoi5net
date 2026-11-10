@@ -1,0 +1,30 @@
+@model day5_new.Models.ProductCategoryViewModel
+
+@{
+    ViewData["Title"] = "Thêm sản phẩm";
+}
+
+<div class="container mt-4">
+    <h2>Thêm sản phẩm mới</h2>
+    
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Tên sản phẩm</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Mô tả</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Giá</label>
+            <input asp-for="Price" type="number" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="CategoryName" class="form-label">Tên danh mục</label>
+            <input asp-for="CategoryName" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-success">Lưu</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

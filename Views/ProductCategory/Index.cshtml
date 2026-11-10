@@ -1,0 +1,83 @@
+﻿@model IEnumerable<day5_new.Models.ProductCategoryViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    int currentPage = ViewData["CurrentPage"] != null ? (int)ViewData["CurrentPage"] : 1;
+    int totalPages = ViewData["TotalPages"] != null ? (int)ViewData["TotalPages"] : 1;
+    var currentFilter = ViewData["CurrentFilter"];
+}
+
+<div class="container mt-4">
+    <h2>Index</h2>
+
+    <!-- Form tìm kiếm -->
+    <form asp-action="Index" method="get" class="mb-3">
+        <div style="display: flex; align-items: center;">
+            <input type="text" name="searchString" value="@currentFilter" style="width: 300px;" class="form-control me-2" placeholder="nhập Category cần tìm....." />     
+            <button type="submit" class="btn btn-primary me-2">Search</button>
+            <a asp-action="Index" class="text-decoration-none">Quay lại danh sách</a>
+        </div>
+    </form>
+
+    <!-- Nút Create New -->
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+
+    <!-- Bảng hiển thị -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>CategoryId</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.Price.ToString("N0") VNĐ</td>
+                        <td>@item.CategoryName</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Bạn có chắc muốn xóa?');">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">Không có dữ liệu phù hợp.</td>
+                </tr>
+            }
+
+            <!-- Phần chuyển trang nhanh và đếm số lượng bạn vừa gửi -->
+            <tr>
+                <td colspan="2">
+                    <form asp-action="Index" method="get" style="display: inline;">
+                        <!-- Giữ lại searchString nếu người dùng đang tìm kiếm -->
+                        <input type="hidden" name="searchString" value="@currentFilter" />
+                        <input type="submit" value="Go to" class="btn btn-sm btn-outline-secondary" /> page 
+                        <input type="number" max="@totalPages" min="1" name="page" value="@currentPage" style="width: 60px; display: inline-block;" class="form-control form-control-sm d-inline-block" /> of @totalPages
+                    </form>
+                </td>
+                <td colspan="4" class="text-end"><strong>Tổng số sản phẩm trang này: @Model.Count()</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Thanh phân trang dạng số (tùy chọn hiển thị thêm) -->
+    
+    
+</div>
